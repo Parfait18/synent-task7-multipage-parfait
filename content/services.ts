@@ -27,7 +27,7 @@ export const services: readonly Service[] = [
       "Building permit file, submitted and followed up at the town hall",
     ],
     duration: "6 to 10 weeks",
-    priceFrom: "From 1 200 000 FCFA",
+    priceFrom: "From 1\u00a0200\u00a0000\u00a0FCFA",
   },
   {
     slug: "construction",
@@ -42,7 +42,7 @@ export const services: readonly Service[] = [
       "A visit after the first rainy season to check the walls",
     ],
     duration: "5 to 9 months for a house",
-    priceFrom: "From 185 000 FCFA per m²",
+    priceFrom: "From 185\u00a0000\u00a0FCFA per m²",
   },
   {
     slug: "blocks",
@@ -57,7 +57,7 @@ export const services: readonly Service[] = [
       "Half a day of on-site advice for your mason on the first course",
     ],
     duration: "Delivery within 10 days",
-    priceFrom: "From 450 FCFA per block",
+    priceFrom: "From 450\u00a0FCFA per block",
   },
   {
     slug: "retrofit",
@@ -72,7 +72,7 @@ export const services: readonly Service[] = [
       "A second set of readings after the work, to compare",
     ],
     duration: "2 to 6 weeks",
-    priceFrom: "From 900 000 FCFA",
+    priceFrom: "From 900\u00a0000\u00a0FCFA",
   },
 ];
 
