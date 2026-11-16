@@ -31,6 +31,11 @@ type ClaustraProps = {
   lightClassName?: string;
   /** Colour of the blocks. */
   blockClassName?: string;
+  /**
+   * Draws the thickness of each block inside its central opening, as the
+   * shadow of the sun falling through it. Used where the screen is large.
+   */
+  hasDepth?: boolean;
   /** SVG aspect handling, for example "xMinYMid slice" for a strip that fills its width. */
   preserveAspectRatio?: string;
   className?: string;
@@ -44,6 +49,7 @@ export function Claustra({
   columns,
   courses,
   isAnimated = false,
+  hasDepth = false,
   lightClassName = "fill-harmattan",
   blockClassName = "fill-laterite",
   preserveAspectRatio,
@@ -63,13 +69,28 @@ export function Claustra({
     >
       <defs>
         <path id={id} d={BLOCK_PATH} fillRule="evenodd" />
+        {hasDepth && (
+          <>
+            <clipPath id={`${id}-opening`}>
+              <circle cx="50" cy="50" r="28" />
+            </clipPath>
+            {/* Inside the opening: the block's reveal in shadow, then the light offset by the sun's angle. */}
+            <g id={`${id}-depth`} clipPath={`url(#${id}-opening)`}>
+              <rect width={BLOCK} height={BLOCK} className="fill-laterite-deep" />
+              <circle cx="57" cy="58" r="28" className={lightClassName} />
+            </g>
+          </>
+        )}
       </defs>
       {/* What shows through the openings and joints: light behind the wall. */}
       <rect width={width} height={height} className={lightClassName} />
       {Array.from({ length: courses }, (_, course) => (
         <g key={course} className={cn("claustra-course", blockClassName)}>
           {Array.from({ length: columns }, (_, column) => (
-            <use key={column} href={`#${id}`} x={column * pitch} y={course * pitch} />
+            <g key={column} transform={`translate(${column * pitch} ${course * pitch})`}>
+              {hasDepth && <use href={`#${id}-depth`} />}
+              <use href={`#${id}`} />
+            </g>
           ))}
         </g>
       ))}

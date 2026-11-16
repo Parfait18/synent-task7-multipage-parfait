@@ -146,6 +146,8 @@
    */
   .bond-line {
     display: block;
+    /* A course is never split: wrapping would break the bond pattern. */
+    white-space: nowrap;
   }
   .bond-line:nth-child(even) {
     padding-left: 0.9em;
