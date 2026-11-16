@@ -21,7 +21,7 @@ export function ClosingCall({ id }: { id: string }) {
             walk your plot with you before the calendar fills.
           </p>
         </div>
-        <CtaLink href="/contact" variant="onDark" className="justify-self-start">
+        <CtaLink href="/contact?subject=site-visit" variant="onDark" className="justify-self-start">
           Book a site visit
         </CtaLink>
       </div>

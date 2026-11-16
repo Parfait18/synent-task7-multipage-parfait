@@ -58,7 +58,7 @@ export default function HomePage() {
               <span lang="fr">terre de barre</span> that gives Cotonou its red roads.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
-              <CtaLink href="/contact">Book a site visit</CtaLink>
+              <CtaLink href="/contact?subject=site-visit">Book a site visit</CtaLink>
               <CtaLink href="/services" variant="secondary">
                 See our services
               </CtaLink>
