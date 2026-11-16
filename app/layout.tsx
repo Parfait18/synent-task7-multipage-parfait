@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Atkinson_Hyperlegible_Next, Zilla_Slab } from "next/font/google";
-import { connection } from "next/server";
+import { headers } from "next/headers";
 
 import { SiteFooter } from "@/components/site/site-footer";
+import { NonceProvider } from "@/components/site/nonce-provider";
 import { SiteHeader } from "@/components/site/site-header";
 import { siteUrl, studio } from "@/content/site";
 
@@ -25,6 +26,10 @@ const atkinson = Atkinson_Hyperlegible_Next({
   subsets: ["latin"],
   variable: "--font-atkinson",
   display: "swap",
+  // next/font has no metrics for this recent family, so it cannot build an
+  // adjusted fallback; name the system fallback explicitly instead.
+  adjustFontFallback: false,
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -46,10 +51,10 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  // The CSP nonce is generated per request in proxy.ts. Next.js can only stamp
-  // it on its inline scripts when the page renders per request, so the whole
-  // site opts into dynamic rendering here (see docs/SPECIFICATION.md, section 7).
-  await connection();
+  // The CSP nonce is generated per request in proxy.ts. Reading the request
+  // headers opts every page into per-request rendering, which Next.js needs to
+  // stamp the nonce on its own scripts (see docs/SPECIFICATION.md, section 7).
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
     <html lang="en" className={`${zilla.variable} ${atkinson.variable} antialiased`}>
@@ -60,11 +65,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <SiteHeader />
-        <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
-          {children}
-        </main>
-        <SiteFooter />
+        <NonceProvider nonce={nonce}>
+          <SiteHeader />
+          <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+            {children}
+          </main>
+          <SiteFooter />
+        </NonceProvider>
       </body>
     </html>
   );

@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+// zod 4 compiles fast parsers with `new Function` when it can. The site's CSP
+// forbids eval, so the probe is reported as a violation in the browser. The
+// jitless mode skips the probe; forms this small do not need the speed.
+z.config({ jitless: true });
+
 /**
  * The contact form contract, shared by the browser (instant feedback through
  * react-hook-form) and the Server Action (the actual security boundary).
