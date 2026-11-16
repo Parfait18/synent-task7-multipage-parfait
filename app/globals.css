@@ -3,6 +3,13 @@
 @import "shadcn/tailwind.css";
 
 /*
+ * The site has a single light theme. shadcn components carry `dark:` classes;
+ * binding the variant to a `.dark` ancestor (never set) stops them from
+ * reacting to the visitor's system setting and breaking the palette.
+ */
+@custom-variant dark (&:is(.dark *));
+
+/*
  * Atelier Barre design tokens.
  *
  * The palette comes from the materials the studio builds with: the lime wash
