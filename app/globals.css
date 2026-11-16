@@ -2,27 +2,37 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/*
+ * Atelier Barre design tokens.
+ *
+ * The palette comes from the materials the studio builds with: the lime wash
+ * on a finished wall, the red "terre de barre" laterite of southern Benin, the
+ * dark brown of a fired kiln, the neem trees planted for shade and the dusty
+ * ochre of the harmattan sky. Contrast ratios are listed in
+ * docs/SPECIFICATION.md (section 6.2) and were computed, not estimated.
+ */
+@theme {
+  --color-lime: #e9ebe6;
+  --color-plaster: #dfe2dc;
+  --color-laterite: #8f3518;
+  --color-laterite-deep: #6e2810;
+  --color-kiln: #33201a;
+  --color-dust: #6b5a50;
+  --color-neem: #2f5d46;
+  --color-harmattan: #f2c46b;
+  --color-signal: #b42318;
+  --color-joint: #857368;
 
+  --font-display: var(--font-zilla), ui-serif, Georgia, serif;
+  --font-body: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* shadcn/ui reads these variables: mapping the brand once themes every component. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -43,91 +53,147 @@
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--color-lime);
+  --foreground: var(--color-kiln);
+  --card: #f4f5f2;
+  --card-foreground: var(--color-kiln);
+  --popover: #f4f5f2;
+  --popover-foreground: var(--color-kiln);
+  --primary: var(--color-laterite);
+  --primary-foreground: var(--color-lime);
+  --secondary: var(--color-plaster);
+  --secondary-foreground: var(--color-kiln);
+  --muted: var(--color-plaster);
+  --muted-foreground: var(--color-dust);
+  --accent: var(--color-plaster);
+  --accent-foreground: var(--color-kiln);
+  --destructive: var(--color-signal);
+  /* Decorative rules stay soft; form borders are UI components and keep 3.76:1 (WCAG 1.4.11). */
+  --border: #c9c6bd;
+  --input: var(--color-joint);
+  --ring: var(--color-laterite);
+  /* A block has a slightly softened arris, not a pill. */
+  --radius: 0.1875rem;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled), [role="button"]:not(:disabled) {
-    cursor: pointer;
-  }
   html {
     @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* One focus style everywhere: a laterite outline offset from the element. */
+  :focus-visible {
+    outline: 3px solid var(--color-laterite);
+    outline-offset: 3px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-harmattan);
+  }
+
+  ::selection {
+    background: var(--color-harmattan);
+    color: var(--color-kiln);
+  }
+}
+
+@layer components {
+  /* Page container: content is left aligned, like a wall built from one corner. */
+  .shell {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  /* Running text keeps a readable measure (about 65 characters). */
+  .measure {
+    max-width: 38rem;
+  }
+
+  .prose-barre > p + p {
+    margin-top: 1rem;
+  }
+
+  /*
+   * The signature: headline lines laid like a running bond. Every other
+   * course is offset by half a block, the way masons stagger the joints.
+   */
+  .bond-line {
+    display: block;
+  }
+  .bond-line:nth-child(even) {
+    padding-left: 0.9em;
+  }
+
+  .text-link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+  .text-link:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/*
+ * The single page-load moment: the hero claustra is laid one course at a
+ * time, bottom to top. Nothing else on the site moves on its own.
+ */
+@keyframes lay-course {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.claustra-animated .claustra-course {
+  animation: lay-course 480ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.claustra-animated .claustra-course:nth-last-of-type(1) { animation-delay: 0ms; }
+.claustra-animated .claustra-course:nth-last-of-type(2) { animation-delay: 90ms; }
+.claustra-animated .claustra-course:nth-last-of-type(3) { animation-delay: 180ms; }
+.claustra-animated .claustra-course:nth-last-of-type(4) { animation-delay: 270ms; }
+.claustra-animated .claustra-course:nth-last-of-type(5) { animation-delay: 360ms; }
+.claustra-animated .claustra-course:nth-last-of-type(6) { animation-delay: 450ms; }
+.claustra-animated .claustra-course:nth-last-of-type(7) { animation-delay: 540ms; }
+.claustra-animated .claustra-course:nth-last-of-type(8) { animation-delay: 630ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
