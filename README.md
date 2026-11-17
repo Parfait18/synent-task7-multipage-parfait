@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Atelier Barre: multi-page website
 
-## Getting Started
+Website for **Atelier Barre**, a fictional architecture and building studio in Cotonou, Benin, that
+designs and builds houses, shops and schools with compressed earth blocks made from local laterite.
+Built for the **Synent Technologies web development internship, Task 7: Multi-Page Website**. The
+shared navigation also covers **Task 4: Responsive Navigation Bar**.
 
-First, run the development server:
+> Atelier Barre is invented for this exercise. People, projects, prices, the address and the phone
+> number are illustrative.
+
+## Features
+
+- **Four pages and a custom 404.** Home, About, Services and Contact, each with its own title,
+  description, canonical URL and Open Graph tags. A sitemap and `robots.txt` are generated.
+- **Shared layout.** The same header, footer and closing call to action on every page, built from
+  one set of design tokens.
+- **Responsive navigation.** Inline links on desktop with the current page marked
+  (`aria-current="page"`); below 768 px a hamburger opens a shadcn `Sheet` with a focus trap,
+  Escape to close, focus returned to the button, and automatic closing when a link is followed.
+- **Contact form** built with shadcn `Field` components, react-hook-form and zod. A **Server
+  Action** validates again with the same schema, applies a rate limit, drops honeypot submissions
+  and returns typed field errors. The form also works with JavaScript disabled.
+- **No email is sent.** The business is fictional, so the action only logs a sanitised summary
+  (subject, email domain, message length) to the server's standard output.
+- **Strict security headers.** A Content-Security-Policy with a fresh nonce per request (no
+  `unsafe-inline` or `unsafe-eval` for scripts), HSTS, `nosniff`, frame denial, referrer and
+  permissions policies.
+- **Hand-made visuals.** No stock photography: a claustra (breeze-block) screen and three project
+  elevations are drawn in SVG.
+- **Accessible:** skip link, labelled landmarks and sections, visible focus, WCAG AA contrast
+  (measured), reduced-motion support, and errors announced to screen readers.
+
+## Tech stack
+
+| Tool | Role |
+|---|---|
+| [Next.js 16](https://nextjs.org) (App Router, TypeScript) | Pages, layouts, Server Actions, proxy |
+| [React 19](https://react.dev) + React Compiler | UI; Server Components by default |
+| [Tailwind CSS v4](https://tailwindcss.com) | Utility classes and design tokens |
+| [shadcn/ui](https://ui.shadcn.com) (Radix base) | Sheet, Field, Input, Select, Textarea |
+| [react-hook-form](https://react-hook-form.com) + [zod](https://zod.dev) | Form state and the shared validation schema |
+| `next/font` | Zilla Slab and Atkinson Hyperlegible Next, self-hosted |
+| [Vitest](https://vitest.dev) + Testing Library | Unit and component tests |
+
+## Getting started
+
+Requires Node.js 20.9 or later.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # optional, see "Configuration"
+npm run dev                  # http://localhost:3100
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Starts the dev server on port 3100 with hot reload |
+| `npm run build` | Builds the production site |
+| `npm start` | Serves the production build on port 3100 |
+| `npm test` | Runs the unit and component tests once |
+| `npm run test:watch` | Runs the tests in watch mode |
+| `npm run lint` | Lints the project with ESLint |
+| `npm run typecheck` | Type-checks without emitting files |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Default | Purpose |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3100` | Base URL for canonical links, Open Graph and the sitemap |
+| `TRUSTED_PROXY_HOPS` | empty (0) | Number of trusted reverse proxies that append to `X-Forwarded-For`. Used to find the client IP for the contact rate limit. Not needed on Vercel. |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+.
+├── app/
+│   ├── layout.tsx            # Fonts, metadata defaults, header, footer, CSP nonce provider
+│   ├── page.tsx              # Home
+│   ├── about/page.tsx
+│   ├── services/page.tsx
+│   ├── contact/
+│   │   ├── page.tsx          # Contact page (Server Component)
+│   │   └── actions.ts        # Server Action: rate limit, then processContactSubmission
+│   ├── not-found.tsx         # Custom 404
+│   ├── sitemap.ts, robots.ts
+│   └── globals.css           # Design tokens, shadcn variable mapping, the one animation
+├── components/
+│   ├── art/                  # Hand-drawn SVG: claustra screen, project elevations
+│   ├── contact/contact-form.tsx
+│   ├── site/                 # Header, nav (+ test), footer, logo, page intro, CTA, nonce provider
+│   └── ui/                   # shadcn/ui components (generated by the CLI)
+├── content/                  # Page copy and data: studio facts, services, projects, team
+├── lib/
+│   ├── contact/              # Schema, rate limiter, client key, submission logic (+ tests)
+│   ├── security/csp.ts       # CSP builder and nonce (+ tests)
+│   ├── metadata.ts           # Per-page metadata helper
+│   └── navigation.ts         # Active-link rule (+ tests)
+├── proxy.ts                  # Per-request CSP nonce
+├── next.config.ts            # Static security headers
+└── docs/SPECIFICATION.md     # Requirements, design system, security, accessibility, tests
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The full specification is in [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md): the chosen business
+and why, the sitemap, the functional requirements, the content of each page, the design tokens with
+measured contrast ratios, the security measures and their trade-offs, accessibility, responsive
+behaviour and testing.
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The site needs a Node.js server: every page is rendered per request so that each response gets its
+own CSP nonce. It cannot be exported as static files.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Vercel:** import the repository and keep the defaults. Set `NEXT_PUBLIC_SITE_URL`. The client IP
+  for the rate limit is read from `x-vercel-forwarded-for` automatically.
+- **Any Node.js host:** `npm ci && npm run build && npm start` behind a reverse proxy that terminates
+  HTTPS. Set `TRUSTED_PROXY_HOPS` to the number of proxies that append to `X-Forwarded-For`.
+
+The contact rate limit is kept in memory. On several instances, move it to a shared store (see the
+specification, section 7.3).
+
+## Author
+
+**Parfait Ahouanto**, [github.com/Parfait18](https://github.com/Parfait18)
+
+## License
+
+[MIT](LICENSE)
